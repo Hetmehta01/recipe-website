@@ -19,7 +19,6 @@
                         <li><a href="index.html">HOME</a></li>
                         <li><a href="about.html">ABOUT</a></li>
                         <li><a href="recipe.html">RECIPES</a></li>
-                        <li><a href="">GALLERY</a></li>
                         <li><a href="contact1.php">CONTACT</a></li>
                     </ul>
                 </div>
@@ -60,12 +59,12 @@
                     </div>
                 </div>
                 <div class="contact-col">
-                    <form action="form-handler.php" method="POST">
-                        <input type="text" name="name" placeholder="Enter your name" required>
+                    <form action="contact1.php" method="post">
+                        <input type="text" name="fullname" placeholder="Enter your name" required>
                         <input type="email" name="email" placeholder="Enter email address" required>
                         <input type="text" name="subject" placeholder="Enter your subject" required>
                         <textarea rows="8" name="message" placeholder="Message" required></textarea>
-                        <button type="submit" class="hero-btn red-btn">Send Message</button>
+                        <a href = "contact1.php"><button type="submit" name="submit" class="hero-btn red-btn">Send Message</button></a>
                     </form>
                 </div>
             </div>
@@ -95,4 +94,42 @@
             }
         </script>
     </body>
-</html> 
+</html>
+
+<?php
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "recipe-website";
+
+$conn = mysqli_connect($servername,$username,$password,$dbname);
+
+if($conn)
+{
+    // echo "Connection OK";
+}
+else
+{
+    echo "Connection Failed ".mysqli_connect_error();
+}
+
+$name =  $_REQUEST['fullname'];
+$email =  $_REQUEST['email'];
+$subject = $_REQUEST['subject'];
+$message = $_REQUEST['message'];
+
+$sql = "INSERT INTO contactus  VALUES ('$name', '$email','$subject','$message')";
+
+if(mysqli_query($conn, $sql)){
+    echo "<h3>data stored in a database successfully." ;
+
+    // echo nl2br("\n$name\n $email");
+} else{
+    echo "ERROR: Hush! Sorry $sql. " 
+        . mysqli_error($conn);
+}
+
+mysqli_close($conn);
+
+?>
